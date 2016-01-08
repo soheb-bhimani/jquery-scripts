@@ -1,6 +1,6 @@
 function pad(length, str) {
   if (typeof str === 'undefined') 
-    return pad;
+    return str;
   str += " ";
   if (str.length < length) {
     for(var i = str.length; i < length; i++) {
