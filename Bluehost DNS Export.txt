@@ -1,0 +1,54 @@
+function pad(length, str) {
+  if (typeof str === 'undefined') 
+    return pad;
+  str += " ";
+  if (str.length < length) {
+    for(var i = str.length; i < length; i++) {
+      str += " ";
+    }
+  }
+  return str;
+}
+
+var lines = [];
+lines.push("$ORIGIN " + $('#domain_selected').val() + ".     ; designates the start of this zone file in the namespace");
+lines.push("$TTL 2h                  ; default TTL");
+
+$('.rec_body').each(function (i, table) {
+  
+  var recType = $(table).prev('.rec_title').text();
+  if (recType == "") recType = "MX";
+  //console.log(recType);
+  recType = recType.split(" ");
+  recType = recType.length == 0 ? "" : recType[0];
+  
+  $(table).find('.brand-table.rec_table.gridtable tr').each(function (j, tr) {
+    var tds = [];
+    $(tr).find('td').each(function (k, td) {
+      tds.push(($(td).text()||'').toLowerCase());
+    });
+    if (tds.length < 3) return;
+    //console.log(tds);
+    
+    var line = "";
+    if (recType == "MX") {
+      line += pad(25, tds[1]);
+      line += pad(10, tds[3]);
+      line += pad(5, "IN");
+      line += pad(10, recType);
+      line += pad(5, tds[0]);
+      line += pad(25, tds[2]);
+    } else {
+      line += pad(25, tds[0]);
+      line += pad(10, tds[2]);
+      line += pad(5, "IN");
+      line += pad(10, recType);
+      line += pad(15, tds[1]);
+      
+    }
+    lines.push(line);
+  });
+});
+
+//console.log(JSON.stringify(things, null, '  '));
+console.log(lines.join("\n"));
