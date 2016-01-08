@@ -49,6 +49,4 @@ $('.rec_body').each(function (i, table) {
     lines.push(line);
   });
 });
-
-//console.log(JSON.stringify(things, null, '  '));
 console.log(lines.join("\n"));
